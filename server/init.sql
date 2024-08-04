@@ -15,12 +15,8 @@ CREATE TABLE IF NOT EXISTS records (
 );
 
 INSERT INTO records (id, what, place, text) VALUES 
-(1, 'place', 'The English Market', 'A historic food market offering a variety of local produce and goods but with a foreign name.'),
-(2, 'item', '', 'Todays Newspaper: "A photo of today’s news in print, a snapshot of current events."'),
-(3, 'place', 'St. Fin Barres Cathedral', 'A stunning Gothic Revival cathedral with impressive architecture.'),
-(4, 'item', '', 'A Cork City Souvenir: "Seek a small token from Cork, a keepsake to mark your journey."'),
-(5, 'place', 'Shandon Bells and Tower (St. Annes Church)', 'Known for its iconic clock, the Four-Faced Liar.'),
-(6, 'item', '', 'A Pub Coaster: "Collect a coaster from a local pub, a memento of Cork’s vibrant social scene."');
+(1, 'place', 'Test1', 'Test 1'),
+(2, 'item', '', 'Test 2');
 
 ###
 ### Teams
@@ -37,10 +33,8 @@ CREATE TABLE IF NOT EXISTS teams (
 );
 
 INSERT INTO teams (id, state, name, number, clue) VALUES
-(1, false, "Team-1", "120363320103650944@g.us", 1),
-(2, false, "Team-2", "120363318738182435@g.us", 5),
-(11, true, "Team-Test-1", "120363317768484698@g.us", 1),
-(12, true, "Team-Test-2", "120363303008399256@g.us", 5);
+(1, false, "Team-1", "1234567890@g.us", 1);
+
 
 
 
