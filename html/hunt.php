@@ -12,6 +12,24 @@ if ($conn->connect_error) {
 // Get the record number from the request, default to 1
 $record_number = isset($_POST['record_number']) ? intval($_POST['record_number']) : 1;
 
+// If you trigger a reset, go back to these hard coded figures (TODO update this to be more dynamic)
+if (isset($_GET['reset'])) {
+    $update_sql = "UPDATE teams SET clue = 1 WHERE id = 1";
+    $result = $conn->execute_query($update_sql);
+    $update_sql = "UPDATE teams SET clue = 7 WHERE id = 2";
+    $result = $conn->execute_query($update_sql);
+    $update_sql = "UPDATE teams SET clue = 14 WHERE id = 3";
+    $result = $conn->execute_query($update_sql);
+    $update_sql = "UPDATE teams SET clue = 20 WHERE id = 4";
+    $result = $conn->execute_query($update_sql);
+    $update_sql = "UPDATE teams SET clue = 28 WHERE id = 5";
+    $result = $conn->execute_query($update_sql);
+    $update_sql = "UPDATE teams SET clue = 14 WHERE id = 11";
+    $result = $conn->execute_query($update_sql);
+    $update_sql = "UPDATE teams SET clue = 28 WHERE id = 12";
+    $result = $conn->execute_query($update_sql);
+}
+
 // Lets set up the page with teams and clues etc.
 // Retrieve enabled teams from the database
 $teams_sql = "SELECT id, name, number, clue FROM teams WHERE state = TRUE";
@@ -85,19 +103,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_text'])) {
     <meta charset="UTF-8">
     <title>Text Countdown</title>
     <script>
-        let countdown = 30;
+        let countdown;
+        let countdownValue = 300; // Default value
+        let countdownTimer;
 
         function startCountdown() {
-            if (countdown <= 0) {
+            if (countdownValue <= 0) {
                 document.getElementById('sendTextForm').submit();
             } else {
-                document.getElementById('countdown').innerText = countdown;
-                countdown--;
-                setTimeout(startCountdown, 1000);
+                countdown = document.getElementById('countdown');
+                countdown.innerText = countdownValue;
+                countdownValue--;
+                countdownTimer = setTimeout(startCountdown, 1000);
             }
         }
 
+        function updateCountdown() {
+            countdownValue = parseInt(document.getElementById('countdownInput').value);
+            clearTimeout(countdownTimer);
+            startCountdown();
+        }
+
+        function pauseCountdown() {
+            clearTimeout(countdownTimer);
+        }
+
+        function resumeCountdown() {
+            startCountdown();
+        }
+
+        function resetCountdown() {
+            countdownValue = parseInt(document.getElementById('countdownInput').value);
+            clearTimeout(countdownTimer);
+            countdown.innerText = countdownValue;
+        }
+
         window.onload = function() {
+            countdown = document.getElementById('countdown');
+            document.getElementById('countdownInput').value = countdownValue;
             startCountdown();
         }
     </script>
@@ -127,7 +170,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_text'])) {
         <input type="hidden" name="record_number" value="<?php echo $record_number; ?>">
         <input type="hidden" name="send_text" value="1">
     </form>
-    <div>Countdown: <span id="countdown">60</span> seconds</div>
+
+    <!-- Countdown controls -->
+    <div>
+        Countdown: <span id="countdown">300</span> seconds
+    </div>
+    <div>
+        <label for="countdownInput">Set Countdown (seconds): </label>
+        <input type="number" id="countdownInput" value="300">
+        <button type="button" onclick="updateCountdown()">Update Countdown</button>
+        <button type="button" onclick="pauseCountdown()">Pause</button>
+        <button type="button" onclick="resumeCountdown()">Resume</button>
+        <button type="button" onclick="resetCountdown()">Reset</button>
+    </div>
+    <div>
+        <a href="/hunt.php?reset=1">Reset counters to start values</a>
+    </div>
 </body>
 </html>
 
