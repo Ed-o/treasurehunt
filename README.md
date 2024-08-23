@@ -15,7 +15,7 @@ To install :
   docker-compose up --build
 
 
-A note on security - this app is designed to run on a workstation (laptop) that ios running Docker.  
+A note on security - this app is designed to run on a workstation or laptop that is running Docker.  
 The Database and web port are not secured.  If you want to use it for more than a one of treasure hunt then add some security.
 
 
